@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Synthesis</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="voiceinator">
+
+    <h1>The Voiceinator 5000</h1>
+
+    <select name="voice" id="voices">
+      <option value="">Select A Voice</option>
+    </select>
+
+    <label for="rate"> Rate:</label>
+    <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
+
+    <label for="pitch">Pitch:</label>
+
+    <input name="pitch" type="range" min="0" max="2" step="0.1">
+    <textarea name="text">Hello! I love JavaScript 👍</textarea>
+    <button id="stop">Stop!</button>
+    <button id="speak">Speak</button>
+
+  </div>
+
+  <script>
+
+    let voices = {
+
+      Afrikaans: 'af', Arabic: "ar", Belarusian: "be", Bulgarian: "bg", Catalan: "ca", Danish: "da", German: "de", Divehi: "dv", Greek: "el", English: "en",
+      Esperanto: "eo", Spanish: "es", Farsi: "fa", Finnish: "fi", Faroese: "fo", French: "fr", Galician: "gl", Gujarati: "gu", Hebrew: "he", Hindi: "hi", Croatian: "hr",
+      Hungarian: "hu", Armenian: "hy", Indonesian: "id", Italian: "it", Japanese: "ja", Kazakh: "kk", Kannada: "kn", Korean: "ko", Konkani: "kok", Kyrgyz: "ky",
+      Lithuanian: "lt", Latvian: "lv", Maori: "mi", Mongolian: "mn", Marathi: "mr", Malay: "ms", Maltese: "mt", Dutch: "nl", Punjabi: "pa", Polish: "pl", Pashto: "ps",
+      Portuguese: "pt", Romanian: "ro", Russian: "ru", Sanskrit: "sa", Slovak: "sk", Slovenian: "sl", Albanian: "sq", Swedish: "sv", Syriac: "syr", Thai: "th",
+      Tswana: "tn", Turkish: "tr", Ukrainian: "uk", Urdu: "ur", Vietnamese: "vi", Chinese: "zh"
+    }
+    const msg = new SpeechSynthesisUtterance();
+
+    let voice = window.speechSynthesis.getVoices()
+
+    const voicesDropdown = document.querySelector('[name="voice"]');
+    const options = document.querySelectorAll('[value="1"]', '[name="text"]');
+    const speakButton = document.querySelector('#speak');
+    const stopButton = document.querySelector('#stop');
+    const text = document.querySelector('[name="text"]')
+    const input = document.querySelectorAll('input')
+    // const sel = document.getSelection()
+
+    Object.entries(voices).forEach(elem => {
+      let key = elem[0];
+      let value = elem[1];
+      var option = document.createElement('option');
+      option.appendChild(document.createTextNode(key))
+      option.value = value;
+      voicesDropdown.appendChild(option);
+    })
+
+    speakButton.addEventListener('click', function () {
+      // const msg = new SpeechSynthesisUtterance( text.value);
+      msg.text = text.value
+      msg.lang = voicesDropdown.value;
+      msg.rate =  input[0].value 
+      msg.pitch = input[1].value
+      // msg.lang = 'en-US';
+    console.log(msg.rate)
+    window.speechSynthesis.speak(msg);
+    })
+    forEach(voices, function(value, key){
+      console.log(value +' '+ key)
+      // console.log(key)
+
+    })
+
+    stopButton.addEventListener('click', function () {
+      msg.onend = function () {
+            alert('Speech has finished');
+          }
+      
+    })
+  </script>
+
+</html>
